@@ -15,10 +15,10 @@ private:
         GRADE_FILE = "grade_data.txt";
 
 public:
-    bool add();
+    bool create();
     bool del();
-    bool edit();
-    void show();
+    bool update();
+    void view();
 };
 
 #endif

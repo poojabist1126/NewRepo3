@@ -24,7 +24,7 @@ static auto retryPrompt = []() -> bool {
     return tolower(response) == 'y';
     };
 
-bool Student::add() {
+bool Student::create() {
     while (true) {
         if (!inputPrompt("Student Name: ", name)) {
             if (!retryPrompt()) return false;
@@ -95,7 +95,7 @@ bool Student::del() {
     }
 }
 
-bool Student::edit() {
+bool Student::update() {
     string studentId;
 
     cout << "Enter student identifier: ";
@@ -137,7 +137,7 @@ bool Student::edit() {
     }
 }
 
-void Student::show() {
+void Student::view() {
     vector<vector<string>> studentRecords = readTxtFile(STUDENT_FILE);
 
     for (int i = 0; i < studentRecords.size(); i++) {

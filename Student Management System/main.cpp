@@ -9,7 +9,7 @@
 #include "student.hpp"
 #include "course.hpp"
 #include "teacher.hpp"
-#include "admin.hpp"
+#include "adminstrator.hpp"
 
 using namespace std;
 
@@ -44,6 +44,10 @@ UserAccount initializeUserAccount(string studentDataFile, string instructorDataF
     while (true) {
         cout << "Select account type (1=Admin, 2=Teacher, 3=Student): ";
         cin >> selectedType;
+
+        if (cin.fail()) return currentUser;
+        cin.clear();
+
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if (selectedType >= 1 && selectedType <= 3) break;
         if (!promptRetry()) return currentUser;
@@ -82,7 +86,7 @@ int main()
     Student studentManager;
     Course courseManager;
     Teacher teacherManager;
-    Admin adminManager;
+    Adminstrator adminManager;
 
     std::string COURSE_FILE = "course_data.txt",
         STUDENT_FILE = "student_data.txt",
@@ -127,33 +131,33 @@ int main()
             currentUser.accountType = 0;
             cout << "Logout complete." << endl;
         }
-        else if (commandParts[0] == "add") {
+        else if (commandParts[0] == "create") {
             if (commandParts[1] == "student" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
-                if (studentManager.add())
+                if (studentManager.create())
                     cout << "Student registration successful." << endl;
                 else
                     cout << "Student registration failed." << endl;
             }
             else if (commandParts[1] == "teacher" && currentUser.accountType == 1 && commandParts.size() == 2) {
-                if (teacherManager.add())
+                if (teacherManager.create())
                     cout << "Teacher registration successful." << endl;
                 else
                     cout << "Teacher registration failed." << endl;
             }
             else if (commandParts[1] == "course" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
-                if (courseManager.add())
+                if (courseManager.create())
                     cout << "Course creation successful." << endl;
                 else
                     cout << "Course creation failed." << endl;
             }
             else if (commandParts[1] == "admin" && currentUser.accountType == 1) {
-                if (adminManager.add())
+                if (adminManager.create())
                     cout << "Admin registration successful." << endl;
                 else
                     cout << "Admin registration failed." << endl;
             }
         }
-        else if (commandParts[0] == "delete") {
+        else if (commandParts[0] == "del") {
             if (commandParts[1] == "student" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
                 if (studentManager.del())
                     cout << "Student removal successful." << endl;
@@ -173,7 +177,7 @@ int main()
                     cout << "Course removal failed." << endl;
             }
         }
-        else if (commandParts[0] == "show") {
+        else if (commandParts[0] == "view") {
             if (commandParts[1] == "enroll-course") {
                 vector<string> enrolledCourses;
 
@@ -192,75 +196,33 @@ int main()
                 else if (currentUser.accountType == 3) courseManager.generateReport(currentUser.identifier);
             }
             else if (commandParts[1] == "teacher" && (currentUser.accountType == 1 || currentUser.accountType == 2 || currentUser.accountType == 3)) {
-                teacherManager.show();
+                teacherManager.view();
             }
             else if (commandParts[1] == "course" && (currentUser.accountType == 1 || currentUser.accountType == 2 || currentUser.accountType == 3)) {
-                courseManager.show();
+                courseManager.view();
             }
             else if (commandParts[1] == "student" && (currentUser.accountType == 1 || currentUser.accountType == 2 || currentUser.accountType == 3)) {
-                studentManager.show();
+                studentManager.view();
             }
         }
-        else if (commandParts[0] == "edit") {
+        else if (commandParts[0] == "update") {
             if (commandParts[1] == "student" && (currentUser.accountType == 1 || currentUser.accountType == 2 || currentUser.accountType == 3) && commandParts.size() == 2) {
-                if (studentManager.edit())
+                if (studentManager.update())
                     cout << "Student update successful." << endl;
                 else
                     cout << "Student update failed." << endl;
             }
             else if (commandParts[1] == "teacher" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
-                if (teacherManager.edit())
+                if (teacherManager.update())
                     cout << "Teacher update successful." << endl;
                 else
                     cout << "Teacher update failed." << endl;
             }
             else if (commandParts[1] == "course" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
-                if (courseManager.edit())
+                if (courseManager.update())
                     cout << "Course update successful." << endl;
                 else
                     cout << "Course update failed." << endl;
-            }
-            else if (commandParts[1] == "mark" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
-                string studentId, courseCode;
-                int assessmentType, scoreValue;
-                vector<string> currentMarks;
-
-                cout << "Student ID: ";
-                getline(cin, studentId);
-                studentId = trim(studentId);
-
-                cout << "Course Code: ";
-                getline(cin, courseCode);
-                courseCode = trim(courseCode);
-
-                cout << "Assessment type (1 - internal, 2 - final):";
-                cin >> assessmentType;
-
-                if (cin.fail())
-                    cout << "Invalid input." << endl;
-
-                cout << "Score: ";
-                cin >> scoreValue;
-
-                if (cin.fail())
-                    cout << "Invalid input." << endl;
-
-                currentMarks = courseManager.getMarks(studentId, courseCode);
-
-                if (currentMarks.size() == 2) {
-                    if (currentMarks[0] == "-" && currentMarks[1] == "-") {
-                        cout << "Student " << studentId << " not enrolled in " << courseCode << "." << endl;
-                    }
-                    else {
-                        if (courseManager.editMark(studentId, courseCode, assessmentType, to_string(scoreValue)))
-                            cout << "Score updated." << endl;
-                        else
-                            cout << "Score update failed." << endl;
-                    }
-                }
-                else if (currentMarks.size() == 1) {
-                    cout << currentMarks[0] << endl;
-                }
             }
         }
         else if (commandParts[0] == "enroll") {
@@ -297,6 +259,48 @@ int main()
                     cout << "Instructor assigned." << endl;
                 else
                     cout << "Assignment failed." << endl;
+            }
+            else if (commandParts[1] == "mark" && (currentUser.accountType == 1 || currentUser.accountType == 2) && commandParts.size() == 2) {
+                string studentId, courseCode;
+                int assessmentType, scoreValue;
+                vector<string> currentMarks;
+
+                cout << "Student ID: ";
+                getline(cin, studentId);
+                studentId = trim(studentId);
+
+                cout << "Course Code: ";
+                getline(cin, courseCode);
+                courseCode = trim(courseCode);
+
+                cout << "Assessment type (1 - internal, 2 - final):";
+                cin >> assessmentType;
+
+                if (cin.fail())
+                    cout << "Invalid input." << endl;
+
+                cout << "Score: ";
+                cin >> scoreValue;
+
+                if (cin.fail())
+                    cout << "Invalid input." << endl;
+
+                currentMarks = courseManager.getMarks(studentId, courseCode);
+
+                if (currentMarks.size() == 2) {
+                    if (currentMarks[0] == "-" && currentMarks[1] == "-") {
+                        cout << "Student " << studentId << " not enrolled in " << courseCode << "." << endl;
+                    }
+                    else {
+                        if (courseManager.updateMark(studentId, courseCode, assessmentType, to_string(scoreValue)))
+                            cout << "Score updated." << endl;
+                        else
+                            cout << "Score update failed." << endl;
+                    }
+                }
+                else if (currentMarks.size() == 1) {
+                    cout << currentMarks[0] << endl;
+                }
             }
         }
         else if (commandParts[0] == "disassign") {

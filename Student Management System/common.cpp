@@ -59,6 +59,8 @@ string getTodayDate() {
 }
 
 bool checkCommandValidity(string userCommand, vector<vector<string>> commandDefinitions, int userRole) {
+    if (userCommand.empty()) return true;
+
     int commandIndex = 0;
     for (commandIndex = 0; commandIndex < commandDefinitions.size(); commandIndex++) {
         if (commandDefinitions[commandIndex][0] == userCommand || userCommand == "") {

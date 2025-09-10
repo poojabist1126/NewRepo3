@@ -37,7 +37,7 @@ static string calculateGrade(double finalScore) {
     else return "F";
 }
 
-bool Course::add() {
+bool Course::create() {
     while (true) {
         if (!getInput("Course Code: ", code)) {
             if (!askRetry()) return false;
@@ -89,7 +89,7 @@ bool Course::del() {
     }
 }
 
-bool Course::edit() {
+bool Course::update() {
     string temp;
 
     cout << "Enter course code: ";
@@ -128,7 +128,7 @@ bool Course::edit() {
     }
 }
 
-bool Course::editMark(string id, string course, int markType, string mark) {
+bool Course::updateMark(string id, string course, int markType, string mark) {
     vector<vector<string>> targetRow = readTxtFile(GRADE_FILE, 0, id);
     vector<vector<string>> topRow = readTxtFile(GRADE_FILE, 0, "index");
 
@@ -219,8 +219,8 @@ bool Course::enroll(string studentId) {
 
     if (marks.size() == 2)
         if (marks[0] == "-" && marks[1] == "-") {
-            return editMark(tempId, tempCode, 1, "0") &&
-                editMark(tempId, tempCode, 2, "0");
+            return updateMark(tempId, tempCode, 1, "0") &&
+                updateMark(tempId, tempCode, 2, "0");
         }
         else {
             cout << "Student " << tempId << " already enrolled in course " << tempCode << "." << endl;
@@ -272,8 +272,8 @@ bool Course::disenroll(string studentId) {
 
     if (marks.size() == 2)
         if (marks[0] != "-" && marks[1] != "-") {
-            return editMark(tempId, tempCode, 1, "-") &&
-                editMark(tempId, tempCode, 2, "-");
+            return updateMark(tempId, tempCode, 1, "-") &&
+                updateMark(tempId, tempCode, 2, "-");
         }
         else {
             cout << "Student " << tempId << " not enrolled in the course " << tempCode << "." << endl;
@@ -493,6 +493,6 @@ void Course::generateReport(string studentId) {
     cout << "==============================================" << endl;
 }
 
-void Course::show() {
+void Course::view() {
     printTable(readTxtFile(COURSE_FILE));
 }

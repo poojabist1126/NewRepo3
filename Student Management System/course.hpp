@@ -15,10 +15,10 @@ private:
         GRADE_FILE = "grade_data.txt";
 
 public:
-    bool add();
+    bool create();
     bool del();
-    bool edit();
-    bool editMark(std::string id, std::string course, int markType, std::string mark);
+    bool update();
+    bool updateMark(std::string id, std::string course, int markType, std::string mark);
     std::vector<std::string> getMarks(const std::string& studentId, const std::string& courseName);
     bool enroll(std::string studentId = "");
     bool disenroll(std::string studentId = "");
@@ -26,7 +26,7 @@ public:
     bool disassignTeacher();
     std::vector<std::string> getEnrolledCourses(std::string studentId = "");
     void generateReport(std::string studentId = "");
-    void show();
+    void view();
 };
 
 #endif

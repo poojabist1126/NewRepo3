@@ -27,7 +27,7 @@ static auto retryHandler = []() -> bool {
     };
 
 
-bool Teacher::add() {
+bool Teacher::create() {
     while (true) {
         if (!inputHandler("Instructor Name: ", name)) {
             if (!retryHandler()) return false;
@@ -92,7 +92,7 @@ bool Teacher::del() {
     }
 }
 
-bool Teacher::edit() {
+bool Teacher::update() {
     string instructorId;
 
     cout << "Enter instructor identifier: ";
@@ -134,7 +134,7 @@ bool Teacher::edit() {
     }
 }
 
-void Teacher::show() {
+void Teacher::view() {
     vector<vector<string>> instructorRecords = readTxtFile(TEACHER_FILE);
 
     for (int i = 0; i < instructorRecords.size(); i++) {

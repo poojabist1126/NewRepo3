@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="admin.cpp">
+    <ClCompile Include="adminstrator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common.cpp">
@@ -38,7 +38,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="admin.hpp">
+    <ClInclude Include="adminstrator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common.hpp">
