@@ -74,20 +74,6 @@ Student Management System/
 ```
 ---
 
-## ⚙️ Getting Started
-
-### ✅ Prerequisites
-- C++14 compatible compiler (MSVC, GCC, Clang)  
-- Visual Studio 2022 or any IDE supporting C++14  
-
-### 🛠 Build Instructions
-
-**Using Visual Studio:**
-1. Open the project folder in **Visual Studio 2022**.  
-2. Build the solution (`Ctrl + Shift + B`).  
-
----
-
 ## 🖥 Usage
 
 1. **Login** → Choose account type (Admin/Teacher/Student) and enter credentials.  
